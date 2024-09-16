@@ -2,9 +2,9 @@ use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 use concat_strs::concat_strs;
 
-static DATE: &str = "2014-11-28";
+static DATE: &str = "2024-09-16";
 static T: &str = "T";
-static TIME: &str = "12:00:09Z";
+static TIME: &str = "12:34:56Z";
 
 fn concat_strs_benchmark(c: &mut Criterion) {
     c.bench_function("concat_strs_constants", |b| {
@@ -16,14 +16,14 @@ fn concat_strs_benchmark(c: &mut Criterion) {
 
     c.bench_function("concat_strs_literals", |b| {
         b.iter(|| {
-            let datetime = concat_strs!["2014-11-28", "T", "12:00:09Z"];
+            let datetime = concat_strs!["2024-09-16", "T", "12:34:56Z"];
             black_box(datetime);
         })
     });
 
     c.bench_function("concat_strs_literals_char", |b| {
         b.iter(|| {
-            let datetime = concat_strs!["2014-11-28", 'T', "12:00:09Z"];
+            let datetime = concat_strs!["2024-09-16", 'T', "12:34:56Z"];
             black_box(datetime);
         })
     });

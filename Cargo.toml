@@ -1,5 +1,26 @@
-[workspace]
-members = [
-    "impl",
-    "decl"
-]
+[package]
+name = "concat_strs"
+version = "0.1.20240916"
+authors = ["Raul Gherman"]
+edition = "2021"
+description = """
+Forked from Rebecca Turner <rbt@sent.as> 's  "https://github.com/9999years/concat_strs".
+No more proc-macro-hack = "0.5", and updated to-date (20240916)
+"""
+repository = "https://github.com/9999years/concat_strs"
+license = "AGPL-3.0"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = "2.0"
+quote = "1.0"
+proc-macro2 = "1.0.86"
+
+[dev-dependencies]
+criterion = "0.4"
+
+[[bench]]
+name = "concat"
+harness = false
