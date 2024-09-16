@@ -1,6 +1,6 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
-use concat_strs::concat_strs;
+use concat_strs_derive::concat_strs;
 
 static DATE: &str = "2024-09-16";
 static T: &str = "T";

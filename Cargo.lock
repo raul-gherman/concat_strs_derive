@@ -107,7 +107,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "concat_strs"
+name = "concat-strs-derive"
 version = "0.1.20240916"
 dependencies = [
  "criterion",
