@@ -1,6 +1,6 @@
 [package]
 name = "concat-strs-derive"
-version = "0.1.20240916"
+version = "0.1.20240917"
 authors = ["Raul Gherman"]
 edition = "2021"
 description = """
@@ -19,7 +19,7 @@ quote = "1.0"
 proc-macro2 = "1.0.86"
 
 [dev-dependencies]
-criterion = "0.4"
+criterion = "0.5.1"
 
 [[bench]]
 name = "concat"
