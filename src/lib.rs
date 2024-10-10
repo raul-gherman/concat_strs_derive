@@ -5,7 +5,6 @@ use syn::parse::{Parse, ParseStream};
 use syn::punctuated::Punctuated;
 use syn::token;
 
-/// `concat_strs` macro; see documentation for the `concat_strs` crate for more information.
 #[proc_macro]
 pub fn concat_strs(input: pm::TokenStream) -> pm::TokenStream {
     let macro_input = syn::parse_macro_input!(input as ConcatStrs);
@@ -49,7 +48,10 @@ fn tmp_assign_tokens(
     match expr {
         syn::Expr::Lit(_) => None,
         _ => {
-            let len_ident = syn::Ident::new(&format!("{}_len", tmp_ident), Span::call_site());
+            let len_ident = syn::Ident::new(
+                &format!("{}_len", tmp_ident),
+                Span::call_site(),
+            );
             Some((
                 len_ident.clone(),
                 quote! {
@@ -61,7 +63,11 @@ fn tmp_assign_tokens(
     }
 }
 
-fn push_tokens(expr: &syn::Expr, tmp_ident: &syn::Ident, string_ident: &syn::Ident) -> TokenStream {
+fn push_tokens(
+    expr: &syn::Expr,
+    tmp_ident: &syn::Ident,
+    string_ident: &syn::Ident,
+) -> TokenStream {
     match expr {
         syn::Expr::Lit(expr) => match expr.lit {
             syn::Lit::Str(_) => {
@@ -75,14 +81,18 @@ fn push_tokens(expr: &syn::Expr, tmp_ident: &syn::Ident, string_ident: &syn::Ide
                 }
             }
             syn::Lit::Float(_) | syn::Lit::Int(_) => {
-                let expr_string =
-                    syn::LitStr::new(&expr.lit.to_token_stream().to_string(), Span::call_site());
+                let expr_string = syn::LitStr::new(
+                    &expr.lit.to_token_stream().to_string(),
+                    Span::call_site(),
+                );
                 quote! {
                     #string_ident.push_str(#expr_string);
                 }
             }
-
-            _ => panic!("Unsupported expression {}", expr.to_token_stream()),
+            _ => panic!(
+                "Unsupported expression {}",
+                expr.to_token_stream()
+            ),
         },
         _ => {
             quote! {
@@ -93,9 +103,12 @@ fn push_tokens(expr: &syn::Expr, tmp_ident: &syn::Ident, string_ident: &syn::Ide
 }
 
 fn tmp_idents() -> impl Iterator<Item = syn::Ident> {
-    (0..)
-        .into_iter()
-        .map(|n| syn::Ident::new(&format!("__tmp_{}", n), Span::call_site()))
+    (0..).into_iter().map(|n| {
+        syn::Ident::new(
+            &format!("__tmp_{}", n),
+            Span::call_site(),
+        )
+    })
 }
 
 fn impl_concat_strs(items: ConcatStrs) -> TokenStream {
@@ -106,7 +119,12 @@ fn impl_concat_strs(items: ConcatStrs) -> TokenStream {
         .exprs
         .iter()
         .zip(tmp_idents())
-        .map(|(expr, ident)| (tmp_assign_tokens(expr, &ident), ident))
+        .map(|(expr, ident)| {
+            (
+                tmp_assign_tokens(expr, &ident),
+                ident,
+            )
+        })
         .collect::<Vec<_>>();
 
     let tmp_len_idents = tmp_assignments_idents
@@ -129,7 +147,13 @@ fn impl_concat_strs(items: ConcatStrs) -> TokenStream {
         .exprs
         .iter()
         .zip(&tmp_assignments_idents)
-        .map(|(expr, (_expr, tmp_ident))| push_tokens(expr, &tmp_ident, &string_ident))
+        .map(|(expr, (_expr, tmp_ident))| {
+            push_tokens(
+                expr,
+                &tmp_ident,
+                &string_ident,
+            )
+        })
         .collect::<Vec<_>>();
 
     quote! {{
