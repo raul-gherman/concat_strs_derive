@@ -4,7 +4,7 @@ version = 4
 
 [[package]]
 name = "concat-strs-derive"
-version = "0.1.20241010"
+version = "0.1.20241016"
 dependencies = [
  "proc-macro2",
  "quote",

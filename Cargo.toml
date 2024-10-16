@@ -1,6 +1,6 @@
 [package]
 name = "concat-strs-derive"
-version = "0.1.20241010"
+version = "0.1.20241016"
 authors = ["Raul Gherman"]
 edition = "2021"
 description = """
