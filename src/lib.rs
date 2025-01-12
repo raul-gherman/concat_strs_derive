@@ -25,7 +25,7 @@ impl Parse for ConcatStrs {
 
 impl ConcatStrs {
     fn bytes_needed(&self) -> usize {
-        self.exprs.iter().map(|e| byte_count(e)).sum()
+        self.exprs.iter().map(byte_count).sum()
     }
 }
 
@@ -91,9 +91,7 @@ fn push_tokens(expr: &syn::Expr, tmp_ident: &syn::Ident, string_ident: &syn::Ide
 }
 
 fn tmp_idents() -> impl Iterator<Item = syn::Ident> {
-    (0..)
-        .into_iter()
-        .map(|n| syn::Ident::new(&format!("__tmp_{}", n), Span::call_site()))
+    (0..).map(|n| syn::Ident::new(&format!("__tmp_{}", n), Span::call_site()))
 }
 
 fn impl_concat_strs(items: ConcatStrs) -> TokenStream {
@@ -127,7 +125,7 @@ fn impl_concat_strs(items: ConcatStrs) -> TokenStream {
         .exprs
         .iter()
         .zip(&tmp_assignments_idents)
-        .map(|(expr, (_expr, tmp_ident))| push_tokens(expr, &tmp_ident, &string_ident))
+        .map(|(expr, (_expr, tmp_ident))| push_tokens(expr, tmp_ident, &string_ident))
         .collect::<Vec<_>>();
 
     quote! {{
