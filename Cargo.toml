@@ -1,8 +1,8 @@
 [package]
 name = "concat-strs-derive"
-version = "0.1.20250112"
+version = "0.1.20250512"
 authors = ["Raul Gherman"]
-edition = "2021"
+edition = "2024"
 description = """
 Forked from Rebecca Turner <rbt@sent.as> 's  "https://github.com/9999years/concat_strs".
 No more proc-macro-hack = "0.5", and updated to-date (20240916)
